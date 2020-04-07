@@ -11,23 +11,21 @@ from surprise import Dataset
 from surprise import Reader
 from surprise import SVD, NormalPredictor
 from surprise.model_selection import GridSearchCV
-#import pandas as pd
-import io
+
+
 from collections import defaultdict
-#from surprise import SVD
-#from surprise import Dataset
-#from surprise.model_selection import GridSearchCV
+
 
 con = sql3.connect('recomen.db')
 def rec_col(con,usuario):
 
     df1 = pd.read_sql_query('select * from calificacion', con)
     df1.to_csv("calificacion.csv", index=False)
-    #df1
+
     df2 = pd.read_csv('calificacion.csv')
     reader = Reader(rating_scale=(1, 5))
     data = Dataset.load_from_df(df2, reader)
-    #df2
+
     
     
 
@@ -76,11 +74,9 @@ def rec_col(con,usuario):
     # Then predict ratings for all pairs (u, i) that are NOT in the training set.
     testset = trainset.build_anti_testset()
     predictions = untuned.test(testset)
-    #print(type(predictions))
+
     top_n = get_top_n(predictions, n=3)
-    # Print the "n" recommended items for each user
-    #for pelicula, calificacion in top_n["Alexander Hurtado Cardona"]:
-    #    print(pelicula, calificacion)
+
     
     
     param_grid = { 'n_factors': [50,100,150],
@@ -94,10 +90,7 @@ def rec_col(con,usuario):
     
     tunedParams = gs.best_params['rmse']
     
-    #print(gs.best_score["rmse"])
-    #print(gs.best_params["rmse"])
-    #print(gs.best_score["mae"])
-    #print(gs.best_params["mae"])
+
     
     trainset = data.build_full_trainset()
     svdtuned = SVD(n_factors=tunedParams['n_factors'], n_epochs=tunedParams['n_epochs'],lr_all=tunedParams['lr_all'], reg_all=tunedParams['reg_all'])
@@ -108,13 +101,7 @@ def rec_col(con,usuario):
     predictions = svdtuned.test(testset)
     
     top_n = get_top_n(predictions, n=3)
-    # Print the recommended items for each user
-    #for pelicula, calificacion in top_n["Alexander Hurtado Cardona"]:
-    #    print(pelicula, calificacion)
-    
-    #print("Matriz Pu \n" ,svdtuned.pu)
-    
-    #print("Matriz Qi \n",svdtuned.qi)
+ 
     
     trainset = data.build_full_trainset()
     algo = SVD(n_factors=tunedParams['n_factors'], n_epochs=tunedParams['n_epochs'],lr_all=tunedParams['lr_all'], reg_all=tunedParams['reg_all'])
@@ -122,7 +109,7 @@ def rec_col(con,usuario):
     
     testset = trainset.build_anti_testset()
     predictions = algo.test(testset)
-    top_n = get_top_n(predictions, n=10)
+    top_n = get_top_n(predictions, n=1000)
     
 
     recoco = []
@@ -130,9 +117,10 @@ def rec_col(con,usuario):
         for pelicula, calificacion in top_n[usuario]:
             recoco.append([pelicula, calificacion])
         return recoco
-    #print(usu)
+    
     listCol = recocolaborativa(usuario)
     return listCol
 
-con = sql3.connect('recomen.db')
-print(rec_col(con,'asd'))
+#con = sql3.connect('recomen.db')
+#r = rec_col(con,'faiber@')
+#print((r))
