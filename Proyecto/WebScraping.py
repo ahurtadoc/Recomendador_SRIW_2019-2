@@ -90,7 +90,7 @@ def web_scrap(con,page_best,page_flip):
           single = 1
           multi = 0
         price = round(float(soup.find('div',class_='priceView-hero-price priceView-customer-price').find('span').text.replace('$','')),2)
-        specx = [publisher,developer,genre,mode,price]
+        specx = [publisher,developer,genre,price]
         ##Analizamos si el juego ya está, añadimos información faltante. Si no está, añadimos el juego.
         if aux==-1:
           games = games.append(pd.Series([title,publisher,developer,genre,single,multi,price,link,'','',True],index=games.columns),ignore_index=True)
