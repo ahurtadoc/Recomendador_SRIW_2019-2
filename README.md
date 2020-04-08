@@ -18,7 +18,7 @@ Se requiere instalar las librerías
 Fuzzywuzzy:
 [https://pypi.org/project/fuzzywuzzy/](https://pypi.org/project/fuzzywuzzy/)
 
-Surprise
+Surprise:
 [http://surpriselib.com/](http://surpriselib.com/)
 
 wxPython:
@@ -69,10 +69,8 @@ El explorador de ítems y los registro y cambios se hace igual que en el punto a
 
 ###  4.  Recomendación: 
 
-1.  Para probar el sistema el sistema de recomendación se hace necesario instalar las librerías Surprise de python en el prompt de conda como administrador con el comando: $ conda install -c conda-forge scikit-surprise
-    
-
-  
+Para probar el sistema el sistema de recomendación se hace necesario instalar las librerías Surprise de python en el prompt de conda como administrador con el comando: $ conda install -c conda-forge scikit-surprise
+      
 
 Se desarrollaron dos sistemas de recomendación; un sistema de recomendación basado en contenido y otro de tipo colaborativo.
 
